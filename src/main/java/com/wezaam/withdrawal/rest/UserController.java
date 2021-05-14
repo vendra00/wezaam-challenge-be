@@ -27,4 +27,9 @@ public class UserController {
     public User findById(@PathVariable Long id) {
         return context.getBean(UserRepository.class).findById(id).orElseThrow();
     }
+    
+    @GetMapping("/find-user-by-email/{email}")
+    public User findByEmail(@PathVariable String email) {
+        return context.getBean(UserRepository.class).findByEmail(email);
+    }
 }
