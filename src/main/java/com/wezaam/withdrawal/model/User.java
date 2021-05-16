@@ -1,20 +1,24 @@
 package com.wezaam.withdrawal.model;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-@Entity(name = "users")
+@Entity()
+@Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
     private Long id;
     
@@ -33,6 +37,12 @@ public class User {
     @OneToMany(mappedBy="user")
     @Column(name = "payment_methods")
     private List<PaymentMethod> paymentMethods;
+    
+    @OneToOne(mappedBy = "user")
+	@JoinColumn(name = "account_id", nullable = false)
+    private Account account;
+    
+    
     
     
     public User() {
