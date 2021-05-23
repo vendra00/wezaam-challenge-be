@@ -31,7 +31,7 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
     
-    @Column(name = "max_withdrawal_amount", nullable = false)
+    @Column(name = "max_withdrawal_amount", nullable = false, columnDefinition = "DOUBLE")
     private Double maxWithdrawalAmount;
     
     @OneToMany(mappedBy="user")
