@@ -43,7 +43,7 @@ public class WithdrawalService {
 
             PaymentMethod paymentMethod;
             if (savedWithdrawalOptional.isPresent()) {
-                paymentMethod = paymentMethodRepository.findById(savedWithdrawalOptional.get().getPaymentMethodId()).orElse(null);
+                paymentMethod = paymentMethodRepository.findById(savedWithdrawalOptional.get().getPaymentMethod().getId()).orElse(null);
             } else {
                 paymentMethod = null;
             }
@@ -53,7 +53,7 @@ public class WithdrawalService {
                 try {
                     var transactionId = withdrawalProcessingService.sendToProcessing(withdrawal.getAmount(), paymentMethod);
                     savedWithdrawal.setStatus(WithdrawalStatus.PROCESSING);
-                    savedWithdrawal.setTransactionId(transactionId);
+                    savedWithdrawal.getTransaction().setId(transactionId);
                     withdrawalRepository.save(savedWithdrawal);
                     eventsService.send(savedWithdrawal);
                     emailService.send(savedWithdrawal);

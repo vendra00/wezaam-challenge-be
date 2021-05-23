@@ -52,8 +52,6 @@ public class WithdrawalController {
         Object body;
         if (executeAt.equals("ASAP")) {
             Withdrawal withdrawal = new Withdrawal();
-            withdrawal.setUserId(Long.parseLong(userId));
-            withdrawal.setPaymentMethodId(Long.parseLong(paymentMethodId));
             withdrawal.setAmount(Double.parseDouble(amount));
             withdrawal.setCreatedAt(Instant.now());
             withdrawal.setStatus(WithdrawalStatus.PENDING);

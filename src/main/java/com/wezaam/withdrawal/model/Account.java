@@ -26,18 +26,18 @@ public class Account {
 	@Column(name = "account_id")
 	private Long id;
 	
-	@Column(name = "account_number", nullable = false)
-    private Integer accountNumber;
-	
-	@Column(name = "amount", nullable = false)
-	private double amount;
-	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 	
 	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Transaction> transactionList = new ArrayList<>();
+	
+	@Column(name = "account_number", nullable = false)
+    private Integer accountNumber;
+	
+	@Column(name = "amount", nullable = false)
+	private double amount;
 
 	public Long getId() {
 		return id;
@@ -45,22 +45,6 @@ public class Account {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Integer getAccountNumber() {
-		return accountNumber;
-	}
-
-	public void setAccountNumber(Integer accountNumber) {
-		this.accountNumber = accountNumber;
-	}
-
-	public double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(double amount) {
-		this.amount = amount;
 	}
 
 	public User getUser() {
@@ -79,11 +63,26 @@ public class Account {
 		this.transactionList = transactionList;
 	}
 
+	public Integer getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(Integer accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", accountNumber=" + accountNumber + ", amount=" + amount + ", user=" + user
-				+ ", transactionList=" + transactionList + "]";
+		return "Account [id=" + id + ", user=" + user + ", transactionList=" + transactionList + ", accountNumber="
+				+ accountNumber + ", amount=" + amount + "]";
 	}
-	
 
 }

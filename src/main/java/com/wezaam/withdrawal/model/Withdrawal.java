@@ -2,6 +2,7 @@ package com.wezaam.withdrawal.model;
 
 import java.time.Instant;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,6 +10,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity(name = "Withdrawal")
@@ -20,20 +23,22 @@ public class Withdrawal {
 	@Column(name = "withdrawals_id")
 	private Long id;
 
-	@Column(name = "transaction_id", nullable = false)
-	private Long transactionId;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "transaction_id")
+	private Transaction transaction;
+
+	@OneToOne(mappedBy = "withdrawals")
+	@JoinColumn(name = "payment_methods_id", nullable = false)
+	private PaymentMethod paymentMethod;
 
 	@Column(name = "amount", nullable = false, columnDefinition = "DOUBLE")
 	private Double amount;
 
 	@Column(name = "created_at", nullable = false, columnDefinition = "DATE DEFAULT CURRENT_DATE")
 	private Instant createdAt;
-
-	@Column(name = "user_id", nullable = false)
-	private Long userId;
-
-	@Column(name = "payment_method_id", nullable = false)
-	private Long paymentMethodId;
+	
+	@Column(name = "execute_at", nullable = false, columnDefinition = "DATE DEFAULT CURRENT_DATE")
+    private Instant executeAt;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "withdrawal_status", nullable = false, columnDefinition = "TEXT")
@@ -47,36 +52,28 @@ public class Withdrawal {
 		this.id = id;
 	}
 
+	public Transaction getTransaction() {
+		return transaction;
+	}
+
+	public void setTransaction(Transaction transaction) {
+		this.transaction = transaction;
+	}
+
+	public PaymentMethod getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(PaymentMethod paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+
 	public Double getAmount() {
 		return amount;
 	}
 
 	public void setAmount(Double amount) {
 		this.amount = amount;
-	}
-
-	public Long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
-	public Long getPaymentMethodId() {
-		return paymentMethodId;
-	}
-
-	public void setPaymentMethodId(Long paymentMethodId) {
-		this.paymentMethodId = paymentMethodId;
-	}
-
-	public WithdrawalStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(WithdrawalStatus status) {
-		this.status = status;
 	}
 
 	public Instant getCreatedAt() {
@@ -87,19 +84,18 @@ public class Withdrawal {
 		this.createdAt = createdAt;
 	}
 
-	public void setTransactionId(Long transactionId) {
-		this.transactionId = transactionId;
+	public WithdrawalStatus getStatus() {
+		return status;
 	}
 
-	public Long getTransactionId() {
-		return transactionId;
+	public void setStatus(WithdrawalStatus status) {
+		this.status = status;
 	}
 
 	@Override
 	public String toString() {
-		return "Withdrawal [id=" + id + ", transactionId=" + transactionId + ", amount=" + amount + ", createdAt="
-				+ createdAt + ", userId=" + userId + ", paymentMethodId=" + paymentMethodId + ", status=" + status
-				+ "]";
+		return "Withdrawal [id=" + id + ", transaction=" + transaction + ", paymentMethod=" + paymentMethod
+				+ ", amount=" + amount + ", createdAt=" + createdAt + ", status=" + status + "]";
 	}
 
 }
