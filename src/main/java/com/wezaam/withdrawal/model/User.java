@@ -11,26 +11,27 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
-@Entity()
-@Table(name = "users")
+@Entity(name = "Users")
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(name= "user_email_unique", columnNames = "email")})
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", updatable=false)
     private Long id;
     
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name", nullable = false, columnDefinition = "TEXT")
     private String firstName;
     
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name", nullable = false, columnDefinition = "TEXT")
     private String lastName;
     
     @Column(name = "email", nullable = false)
     private String email;
     
-    @Column(name = "max_withdrawal_amount")
+    @Column(name = "max_withdrawal_amount", nullable = false)
     private Double maxWithdrawalAmount;
     
     @OneToMany(mappedBy="user")
@@ -40,13 +41,6 @@ public class User {
     @OneToOne(mappedBy = "user")
 	@JoinColumn(name = "account_id", nullable = false)
     private Account account;
-    
-    
-    
-    
-    public User() {
-    	
-    }
 
     public Long getId() {
         return id;

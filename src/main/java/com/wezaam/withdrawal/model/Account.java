@@ -1,17 +1,24 @@
 package com.wezaam.withdrawal.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
 
 @Entity()
-@Table(name = "account")
+@Table(name = "account", uniqueConstraints = {@UniqueConstraint(name= "account_account_number_unique", columnNames = "number")})
 public class Account {
 
 	@Id
@@ -19,12 +26,18 @@ public class Account {
 	@Column(name = "account_id")
 	private Long id;
 	
-	@Column(name = "amount")
+	@Column(name = "account_number", nullable = false)
+    private Integer accountNumber;
+	
+	@Column(name = "amount", nullable = false)
 	private double amount;
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
+	
+	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Transaction> transactionList = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -34,6 +47,14 @@ public class Account {
 		this.id = id;
 	}
 
+	public Integer getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(Integer accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
 	public double getAmount() {
 		return amount;
 	}
@@ -41,5 +62,28 @@ public class Account {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<Transaction> getTransactionList() {
+		return transactionList;
+	}
+
+	public void setTransactionList(List<Transaction> transactionList) {
+		this.transactionList = transactionList;
+	}
+
+	@Override
+	public String toString() {
+		return "Account [id=" + id + ", accountNumber=" + accountNumber + ", amount=" + amount + ", user=" + user
+				+ ", transactionList=" + transactionList + "]";
+	}
+	
 
 }

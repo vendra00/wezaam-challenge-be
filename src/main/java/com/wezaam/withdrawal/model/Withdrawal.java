@@ -1,30 +1,32 @@
 package com.wezaam.withdrawal.model;
 
+import java.time.Instant;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.time.Instant;
+import javax.persistence.Table;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
-@Entity(name = "withdrawals")
+@Entity(name = "Withdrawal")
+@Table(name = "withdrawals")
 public class Withdrawal {
 
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "withdrawals_id")
 	private Long id;
 
 	@Column(name = "transaction_id", nullable = false)
 	private Long transactionId;
 
-	@Column(name = "amount", nullable = false)
+	@Column(name = "amount", nullable = false, columnDefinition = "DOUBLE")
 	private Double amount;
 
-	@Column(name = "created_at", nullable = false)
+	@Column(name = "created_at", nullable = false, columnDefinition = "DATE DEFAULT CURRENT_DATE")
 	private Instant createdAt;
 
 	@Column(name = "user_id", nullable = false)
@@ -34,7 +36,7 @@ public class Withdrawal {
 	private Long paymentMethodId;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "withdrawal_status", nullable = false)
+	@Column(name = "withdrawal_status", nullable = false, columnDefinition = "TEXT")
 	private WithdrawalStatus status;
 
 	public Long getId() {
