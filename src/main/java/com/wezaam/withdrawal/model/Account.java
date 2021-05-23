@@ -10,34 +10,34 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-
 @Entity(name = "Account")
-@Table(name = "account", uniqueConstraints = {@UniqueConstraint(name= "account_account_number_unique", columnNames = "account_number")})
+@Table(name = "account", uniqueConstraints = {
+		@UniqueConstraint(name = "account_account_number_unique", columnNames = "account_number") })
 public class Account {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "account_id")
 	private Long id;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private User user;
-	
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@MapsId
+	private User user;
+
 	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Transaction> transactionList = new ArrayList<>();
-	
+	private List<Transaction> transactionList = new ArrayList<>();
+
 	@Column(name = "account_number", nullable = false)
-    private Integer accountNumber;
-	
-	@Column(name = "amount", nullable = false)
-	private double amount;
+	private Integer accountNumber;
+
+	@Column(name = "balance", nullable = false, columnDefinition = "Decimal(10,2) default '0.00'")
+	private double balance;
 
 	public Long getId() {
 		return id;
@@ -71,18 +71,18 @@ public class Account {
 		this.accountNumber = accountNumber;
 	}
 
-	public double getAmount() {
-		return amount;
+	public double getBalance() {
+		return balance;
 	}
 
-	public void setAmount(double amount) {
-		this.amount = amount;
+	public void setBalance(double balance) {
+		this.balance = balance;
 	}
 
 	@Override
 	public String toString() {
 		return "Account [id=" + id + ", user=" + user + ", transactionList=" + transactionList + ", accountNumber="
-				+ accountNumber + ", amount=" + amount + "]";
+				+ accountNumber + ", balance=" + balance + "]";
 	}
 
 }

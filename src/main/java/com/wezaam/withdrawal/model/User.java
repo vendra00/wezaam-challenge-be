@@ -14,65 +14,73 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity(name = "Users")
-@Table(name = "users", uniqueConstraints = {@UniqueConstraint(name= "user_email_unique", columnNames = "email")})
+@Table(name = "users", uniqueConstraints = { @UniqueConstraint(name = "user_email_unique", columnNames = "email") })
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", updatable=false)
-    private Long id;
-    
-    @Column(name = "first_name", nullable = false, columnDefinition = "TEXT")
-    private String firstName;
-    
-    @Column(name = "last_name", nullable = false, columnDefinition = "TEXT")
-    private String lastName;
-    
-    @Column(name = "email", nullable = false)
-    private String email;
-    
-    @Column(name = "max_withdrawal_amount", nullable = false, columnDefinition = "DOUBLE")
-    private Double maxWithdrawalAmount;
-    
-    @OneToMany(mappedBy="user")
-    @Column(name = "payment_methods")
-    private List<PaymentMethod> paymentMethods;
-    
-    @OneToOne(mappedBy = "user")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id", updatable = false)
+	private Long id;
+
+	@Column(name = "first_name", nullable = false, columnDefinition = "TEXT")
+	private String firstName;
+
+	@Column(name = "last_name", nullable = false, columnDefinition = "TEXT")
+	private String lastName;
+
+	@Column(name = "email", nullable = false)
+	private String email;
+
+	@Column(name = "max_withdrawal_amount", nullable = false, columnDefinition = "Decimal(10,2) default '0.00'")
+	private double maxWithdrawalAmount;
+
+	@OneToMany(mappedBy = "user")
+	@Column(name = "payment_methods")
+	private List<PaymentMethod> paymentMethods;
+
+	@OneToOne(mappedBy = "user")
 	@JoinColumn(name = "account_id", nullable = false)
-    private Account account;
+	private Account account;
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public List<PaymentMethod> getPaymentMethods() {
-        return paymentMethods;
-    }
+	public List<PaymentMethod> getPaymentMethods() {
+		return paymentMethods;
+	}
 
-    public void setPaymentMethods(List<PaymentMethod> paymentMethods) {
-        this.paymentMethods = paymentMethods;
-    }
+	public void setPaymentMethods(List<PaymentMethod> paymentMethods) {
+		this.paymentMethods = paymentMethods;
+	}
 
-    public Double getMaxWithdrawalAmount() {
-        return maxWithdrawalAmount;
-    }
+	public double getMaxWithdrawalAmount() {
+		return maxWithdrawalAmount;
+	}
 
-    public void setMaxWithdrawalAmount(Double maxWithdrawalAmount) {
-        this.maxWithdrawalAmount = maxWithdrawalAmount;
-    }
+	public void setMaxWithdrawalAmount(double maxWithdrawalAmount) {
+		this.maxWithdrawalAmount = maxWithdrawalAmount;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
 
 	public String getLastName() {
 		return lastName;
@@ -93,7 +101,8 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", maxWithdrawalAmount=" + maxWithdrawalAmount + ", paymentMethods=" + paymentMethods + "]";
+				+ ", maxWithdrawalAmount=" + maxWithdrawalAmount + ", paymentMethods=" + paymentMethods + ", account="
+				+ account + "]";
 	}
-    
+
 }

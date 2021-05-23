@@ -1,7 +1,5 @@
 package com.wezaam.withdrawal.model;
 
-import java.time.LocalDate;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,14 +19,8 @@ public class Transaction {
 	@Column(name = "transaction_id", updatable = false)
 	private Long id;
 
-	@Column(name = "date", nullable = false)
-	private LocalDate transactionDate;
-
 	@Column(name = "comment", nullable = false, columnDefinition = "TEXT")
 	private String comment;
-
-	@Column(name = "amount", nullable = false, columnDefinition = "DOUBLE")
-	private double amount;
 
 	@ManyToOne
 	@JoinColumn(name = "accountNumber")
@@ -46,28 +38,12 @@ public class Transaction {
 		this.id = id;
 	}
 
-	public LocalDate getTransactionDate() {
-		return transactionDate;
-	}
-
-	public void setTransactionDate(LocalDate transactionDate) {
-		this.transactionDate = transactionDate;
-	}
-
 	public String getComment() {
 		return comment;
 	}
 
 	public void setComment(String comment) {
 		this.comment = comment;
-	}
-
-	public double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(double amount) {
-		this.amount = amount;
 	}
 
 	public Account getAccount() {
@@ -88,8 +64,8 @@ public class Transaction {
 
 	@Override
 	public String toString() {
-		return "Transaction [id=" + id + ", transactionDate=" + transactionDate + ", comment=" + comment + ", amount="
-				+ amount + ", account=" + account + ", withdrawal=" + withdrawal + "]";
+		return "Transaction [id=" + id + ", comment=" + comment + ", account=" + account + ", withdrawal=" + withdrawal
+				+ "]";
 	}
 
 }

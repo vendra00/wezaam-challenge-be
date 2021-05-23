@@ -43,7 +43,7 @@ public class WithdrawalService {
 
             PaymentMethod paymentMethod;
             if (savedWithdrawalOptional.isPresent()) {
-                paymentMethod = paymentMethodRepository.findById(savedWithdrawalOptional.get().getPaymentMethod().getId()).orElse(null);
+                paymentMethod = paymentMethodRepository.findById(savedWithdrawalOptional.get().getId()).orElse(null);
             } else {
                 paymentMethod = null;
             }
