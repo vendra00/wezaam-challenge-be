@@ -16,6 +16,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 @Entity(name = "Account")
 @Table(name = "account", uniqueConstraints = {
 		@UniqueConstraint(name = "account_account_number_unique", columnNames = "account_number") })
@@ -30,6 +33,7 @@ public class Account {
 	@MapsId
 	private User user;
 
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Transaction> transactionList = new ArrayList<>();
 
