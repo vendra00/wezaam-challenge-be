@@ -10,18 +10,25 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.MapsId;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @Entity(name = "Account")
 @Table(name = "account", uniqueConstraints = {
 		@UniqueConstraint(name = "account_account_number_unique", columnNames = "account_number") })
+@Getter @Setter @NoArgsConstructor @ToString @EqualsAndHashCode
 public class Account {
 
 	@Id
@@ -29,8 +36,8 @@ public class Account {
 	@Column(name = "account_id")
 	private Long id;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@MapsId
+	@ManyToOne()
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	@LazyCollection(LazyCollectionOption.FALSE)
@@ -39,54 +46,11 @@ public class Account {
 
 	@Column(name = "account_number", nullable = false)
 	private Integer accountNumber;
+	
+	@Column(name = "max_withdrawal_amount", nullable = false, columnDefinition = "Decimal(10,2) default '0.00'")
+	private double maxWithdrawalAmount;
 
 	@Column(name = "balance", nullable = false, columnDefinition = "Decimal(10,2) default '0.00'")
 	private double balance;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public List<Transaction> getTransactionList() {
-		return transactionList;
-	}
-
-	public void setTransactionList(List<Transaction> transactionList) {
-		this.transactionList = transactionList;
-	}
-
-	public Integer getAccountNumber() {
-		return accountNumber;
-	}
-
-	public void setAccountNumber(Integer accountNumber) {
-		this.accountNumber = accountNumber;
-	}
-
-	public double getBalance() {
-		return balance;
-	}
-
-	public void setBalance(double balance) {
-		this.balance = balance;
-	}
-
-	@Override
-	public String toString() {
-		return "Account [id=" + id + ", user=" + user + ", transactionList=" + transactionList + ", accountNumber="
-				+ accountNumber + ", balance=" + balance + "]";
-	}
 
 }

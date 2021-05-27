@@ -10,13 +10,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @Entity(name = "Transaction")
 @Table(name = "transaction")
+@Getter @Setter @NoArgsConstructor @ToString @EqualsAndHashCode
 public class Transaction {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "transaction_id", updatable = false)
+	
 	private Long id;
 
 	@Column(name = "comment", nullable = false, columnDefinition = "TEXT")
@@ -29,43 +37,5 @@ public class Transaction {
 	@OneToOne(mappedBy = "transaction")
 	@JoinColumn(name = "withdrawal_id", nullable = false)
 	private Withdrawal withdrawal;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
-	public Withdrawal getWithdrawal() {
-		return withdrawal;
-	}
-
-	public void setWithdrawal(Withdrawal withdrawal) {
-		this.withdrawal = withdrawal;
-	}
-
-	@Override
-	public String toString() {
-		return "Transaction [id=" + id + ", comment=" + comment + ", account=" + account + ", withdrawal=" + withdrawal
-				+ "]";
-	}
 
 }

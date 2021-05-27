@@ -18,8 +18,15 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @Entity(name = "Withdrawal")
 @Table(name = "withdrawals")
+@Getter @Setter @NoArgsConstructor @ToString @EqualsAndHashCode
 public class Withdrawal {
 
 	@Id
@@ -48,68 +55,5 @@ public class Withdrawal {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "withdrawal_status", nullable = false, columnDefinition = "TEXT")
 	private WithdrawalStatus status;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Transaction getTransaction() {
-		return transaction;
-	}
-
-	public void setTransaction(Transaction transaction) {
-		this.transaction = transaction;
-	}
-
-	public double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
-
-	public Instant getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Instant createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public PaymentMethod getPaymentMethod() {
-		return paymentMethod;
-	}
-
-	public void setPaymentMethod(PaymentMethod paymentMethod) {
-		this.paymentMethod = paymentMethod;
-	}
-
-	public Instant getExecuteAt() {
-		return executeAt;
-	}
-
-	public void setExecuteAt(Instant executeAt) {
-		this.executeAt = executeAt;
-	}
-
-	public WithdrawalStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(WithdrawalStatus status) {
-		this.status = status;
-	}
-
-	@Override
-	public String toString() {
-		return "Withdrawal [id=" + id + ", paymentMethod=" + paymentMethod + ", transaction=" + transaction
-				+ ", amount=" + amount + ", createdAt=" + createdAt + ", executeAt=" + executeAt + ", status=" + status
-				+ "]";
-	}
 
 }

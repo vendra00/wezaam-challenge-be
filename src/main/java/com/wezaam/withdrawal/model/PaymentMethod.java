@@ -12,9 +12,16 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @Entity(name = "PaymentMethod")
 @Table(name = "payment_method")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Getter @Setter @NoArgsConstructor @ToString @EqualsAndHashCode
 public class PaymentMethod {
 
 	@Id
@@ -28,35 +35,5 @@ public class PaymentMethod {
 
 	@Column(name = "payment_name", nullable = false, columnDefinition = "TEXT")
 	private String paymentName;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public String getPaymentName() {
-		return paymentName;
-	}
-
-	public void setPaymentName(String paymentName) {
-		this.paymentName = paymentName;
-	}
-
-	
-	@Override
-	public String toString() {
-		return "PaymentMethod [id=" + id + ", user=" + user + ", paymentName=" + paymentName + "]";
-	}
 
 }
